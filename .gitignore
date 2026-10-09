@@ -1,0 +1,19 @@
+# Sensitive exports and local working files
+*.key
+*.pem
+*.p12
+*.pfx
+*.ovpn
+*.conf.backup
+*.bak
+*.backup
+*.pcap
+*.pcapng
+*.log
+*.env
+.env.*
+config.xml
+secrets/
+private/
+.DS_Store
+Thumbs.db

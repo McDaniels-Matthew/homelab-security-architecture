@@ -1,0 +1,13 @@
+flowchart TB
+  INTERNET((Internet)) --> FW[OPNsense Firewall]
+  FW --> SW[Managed VLAN Switch]
+  SW --> AP[Managed Wireless AP]
+  SW --> DNS[Pi-hole DNS]
+  SW --> VIRT[Proxmox Lab Host]
+  AP --> MGMT[Management Zone]
+  AP --> TRUST[Trusted Zone]
+  AP --> IOT[IoT Zone]
+  AP --> CAM[Camera Zone]
+  AP --> GUEST[Guest Zone]
+  AP --> CHILD[Child Zone]
+  NOTE[Logical architecture; identifiers and addresses omitted]
