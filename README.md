@@ -8,7 +8,7 @@ A public, sanitized engineering case study of a segmented home network built to 
 
 The lab uses an **OPNsense** firewall on dedicated hardware, a managed VLAN-capable switch, a managed wireless access point, and a Raspberry Pi running **Pi-hole** for DNS filtering. A separate **Proxmox** host supports virtualization and future security exercises. The firewall enforces segmentation between administrative, trusted, IoT, camera, guest, and child-device zones.
 
-![Sanitized network overview](network-overview.svg)
+![Sanitized network overview](diagrams/network-overview.svg)
 
 ## Goals
 
@@ -22,13 +22,13 @@ The lab uses an **OPNsense** firewall on dedicated hardware, a managed VLAN-capa
 
 | Document | Purpose |
 |---|---|
-| [Architecture](architecture.md) | Components, traffic paths, boundaries and assumptions |
-| [Threat model](threat-model.md) | Assets, attacker assumptions, threats and mitigations |
-| [Segmentation](network-segmentation.md) | Zone trust model and intended reachability |
-| [Firewall policy](firewall-policy.md) | Public-safe high-level policy matrix |
-| [Validation](validation-tests.md) | Validation checklist with author-reported passing results |
-| [Design decisions](design-decisions.md) | Why certain controls were selected and tradeoffs |
-| [Example policies](policy-pseudocode.md) | Vendor-neutral illustrations, not production exports |
+| [Architecture](docs/architecture.md) | Components, traffic paths, boundaries and assumptions |
+| [Threat model](docs/threat-model.md) | Assets, attacker assumptions, threats and mitigations |
+| [Segmentation](docs/network-segmentation.md) | Zone trust model and intended reachability |
+| [Firewall policy](docs/firewall-policy.md) | Public-safe high-level policy matrix |
+| [Validation](docs/validation-tests.md) | Validation checklist with author-reported passing results |
+| [Design decisions](docs/design-decisions.md) | Why certain controls were selected and tradeoffs |
+| [Example policies](examples/policy-pseudocode.md) | Vendor-neutral illustrations, not production exports |
 
 ## Implementation status
 
