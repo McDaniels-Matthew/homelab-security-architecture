@@ -1,62 +1,75 @@
 # Home Lab Security Architecture
 
-A public, sanitized engineering case study of a segmented home network built to practice **network security architecture, defense in depth, infrastructure hardening, and verification**.
+A public, sanitized security-engineering case study of a segmented home network. This repository documents **currently deployed controls**, the owner's reported verification results, limits of those results, and a separate backlog for proposed improvements.
 
-> **Scope and evidence:** This repository is a design and documentation portfolio, not a claim of a formally audited or perfectly secure network. Descriptions of deployed controls are based on the author's implementation notes. The author reports completing the listed validation checks successfully; reproducible, sanitized evidence and execution dates have not yet been published.
+> **Deployment snapshot: October 24, 2026.** Deployed/configured descriptions are based on owner reports and existing documentation, **not an independent audit**. Eleven baseline checks have been reported passing, but dated sanitized test transcripts have not yet been published. **Planned features are not claimed to be operating today.**
 
-## Architecture at a glance
+## Current network architecture
 
-The lab uses an **OPNsense** firewall on dedicated hardware, a managed VLAN-capable switch, a managed wireless access point, and a Raspberry Pi running **Pi-hole** for DNS filtering. A separate **Proxmox** host supports virtualization and future security exercises. The firewall enforces segmentation between administrative, trusted, IoT, camera, guest, and child-device zones.
+The reported deployment uses a dedicated **OPNsense firewall** for routing and inter-VLAN policy enforcement; a managed **TP-Link Omada SG2008P** switch; managed Wi-Fi; a Raspberry Pi running **Pi-hole**; and a **Proxmox** virtualization host. Logical zones separate management, trusted endpoints, IoT, cameras, guests and child devices. Proxmox is part of the described lab architecture, but **no planned IDS/SIEM workloads are claimed to be active**.
 
 ![Sanitized network overview](diagrams/network-overview.svg)
 
-## Goals
+## Deployment and verification status
 
-- Isolate lower-trust client groups from sensitive infrastructure.
-- Limit administrative access to a dedicated management zone.
-- Centralize policy enforcement and DNS filtering.
-- Document rules as testable security requirements rather than relying only on screenshots.
-- Practice change control, secure configuration, and repeatable verification.
+| Capability | Current status | Evidence / limitations |
+| --- | --- | --- |
+| OPNsense gateway and zone-based inter-VLAN routing | **Deployed** | Exact configurations excluded from public repository |
+| Omada managed switch and Wi-Fi VLAN mapping | **Deployed** | Private addresses/SSIDs/device identifiers omitted |
+| Management/trusted/IoT/camera/guest/child zones | **Deployed/configured** | Segmentation checks owner-reported, not independently replayed |
+| IoT/camera → trusted/management isolation | **Configured** | Relevant baseline tests owner-reported passing |
+| Guest internet-only policy and captive portal | **Configured** | Guest isolation/access tests owner-reported passing |
+| Pi-hole filtering | **Configured** | Approved resolver for policy-controlled DNS |
+| IoT DNS port 53 / external DNS-over-TLS port 853 controls | **Reported configured** | Restricts specified ports; **not a universal DoH or telemetry block** |
+| General IoT outbound internet egress | **Present — known limitation** | Encrypted vendor traffic, telemetry and DoH may remain possible |
+| Eleven baseline validation checks | **Owner-reported passing** | Dated sanitized evidence/revisions still to be published |
+| Complete child-device destination allowlist | **In progress** | Individual blocked-site tests do not establish comprehensive allowlisting |
+| Unbound/Pi-hole integration | **To verify** | Not claimed deployed or correctly integrated |
+| Home WireGuard remote access | **Separate workstream / to verify** | Not conflated with hardened travel-router work |
+| LG TV strict outbound allowlisting / ACR controls | **Planned, not verified** | No claim all smart-TV telemetry is eliminated |
+| Zenarmor / application-aware IoT restrictions | **Planned, not deployed** | Evaluate only with compatibility, performance and rollback tests |
+| Dedicated SPAN/mirror-port sensor, Suricata/Zeek | **Planned, not deployed** | OPNsense will remain the firewall |
+| Centralized logging / Wazuh / SIEM | **Planned, not deployed** | No claim of ongoing centralized detection |
 
-## Project map
+### What the existing controls cannot prove
+
+- Restricting external TCP/UDP 53 and TCP 853 does **not** establish that clients cannot resolve names over HTTPS/443 (DoH).
+- Pi-hole blocklists cannot guarantee suppression of all vendor telemetry, LG TV automatic-content-recognition traffic, or connections to embedded IP addresses.
+- VLAN separation must be backed by correctly scoped gateway policy, management access restrictions, and repeatable tests.
+- Unencrypted metadata visibility is not the same as reading TLS-encrypted application payloads.
+- A switch mirror of the firewall uplink will not necessarily see intra-VLAN or all wireless-client traffic.
+
+See [current deployment and trust-boundary limitations](docs/deployment-and-threat-boundaries.md) for the narrower security claims.
+
+## Repository guide
 
 | Document | Purpose |
-|---|---|
-| [Architecture](docs/architecture.md) | Components, traffic paths, boundaries and assumptions |
-| [Threat model](docs/threat-model.md) | Assets, attacker assumptions, threats and mitigations |
-| [Segmentation](docs/network-segmentation.md) | Zone trust model and intended reachability |
-| [Firewall policy](docs/firewall-policy.md) | Public-safe high-level policy matrix |
-| [Validation](docs/validation-tests.md) | Validation checklist with author-reported passing results |
-| [Design decisions](docs/design-decisions.md) | Why certain controls were selected and tradeoffs |
-| [Example policies](examples/policy-pseudocode.md) | Vendor-neutral illustrations, not production exports |
+| --- | --- |
+| [Architecture](docs/architecture.md) | Components, packet paths and trust boundaries |
+| [Threat model](docs/threat-model.md) | Assets, assumptions, threats and residual exposure |
+| [Segmentation](docs/network-segmentation.md) | Security zones and intended access |
+| [Firewall policy](docs/firewall-policy.md) | **Conceptual** policy matrix, not the live OPNsense export |
+| [Validation](docs/validation-tests.md) | Eleven baseline **owner-reported** passing tests |
+| [Design decisions](docs/design-decisions.md) | Architectural decisions and trade-offs |
+| [Current deployment & limits](docs/deployment-and-threat-boundaries.md) | Present DNS/IoT controls versus remaining exposure |
+| [Hardening roadmap](docs/hardening-roadmap.md) | **Future work only**; unchecked means not established |
+| [Validation evidence template](docs/validation-evidence-template.md) | Procedure for dated, scoped, sanitized testing |
+| [Example policies](examples/policy-pseudocode.md) | Illustrative pseudocode, not production config |
 
-## Implementation status
+## Engineering priorities
 
-| Capability | Status | Notes |
-|---|---|---|
-| Dedicated OPNsense gateway | Deployed | Hardware and firmware details deliberately omitted |
-| VLAN-aware switch and managed Wi-Fi | Deployed | Distinct logical networks and SSIDs |
-| Management/trusted/IoT/camera/guest/child zones | Deployed | Specific child allowlist implementation scope to be verified |
-| IoT and camera isolation | Configured | Author reports successful checks; public evidence pending |
-| Guest internet-only access | Configured | Captive portal in use |
-| Pi-hole filtering and DNS restrictions | Configured | Validated in the home lab; ongoing tuning |
-| Child allowlist enforcement | In progress | Do not assume full enforcement |
-| Unbound integration | Planned / to verify | Do not claim active deployment |
-| Remote access through WireGuard | Separate project / to verify | No claim of established end-to-end tunnel |
-| SIEM / IDS tooling | Planned | Wazuh/Suricata not claimed as deployed |
+1. Reconfirm the present firewall policy and safely back up the configuration **outside GitHub**.
+2. Re-run zone isolation and DNS tests with dated, sanitized evidence.
+3. Observe LG TV dependencies before narrowing outbound traffic; test DoH/QUIC hypotheses rather than assuming DNS blocking is complete.
+4. Evaluate a separate, passive IDS sensor on a supported switch mirror port. Do **not** replace the existing firewall.
+5. Document new findings, service regressions, rollbacks and subsequent configuration changes.
 
-## Safe disclosure
+Detailed acceptance criteria and sequencing are in the [hardening roadmap](docs/hardening-roadmap.md). **These are not current deployment claims.**
 
-This public repository intentionally excludes real public IPs, internal address ranges, SSIDs, device names, serial numbers, MAC addresses, passwords, credentials, API tokens, VPN keys, production configuration backups, and system logs. All examples are fictional. Never commit real configuration exports without careful, manual sanitization.
+## Public disclosure policy
 
-## Next milestones
+This repository intentionally excludes internal addressing, WAN IPs, SSIDs, MAC addresses, device identifiers, serial numbers, hostnames, actual firewall rule exports, live packet captures, credentials, VPN keys, and production backup files. Published examples must be synthetic or reviewed and sanitized. Results here are not a third-party security certification.
 
-- [ ] Publish dated, sanitized evidence for completed zone-to-zone access tests.
-- [ ] Publish tested DNS behavior and failure-case evidence.
-- [ ] Finish and validate child-zone allowlisting.
-- [ ] Add a separate, sanitized secure travel router case study.
-- [ ] Establish a change log and re-run security checks after policy updates.
+## License
 
-## Licensing
-
-Documentation is provided under [CC BY 4.0](LICENSE). Example policy pseudocode is illustrative only and must be adapted and reviewed before use.
+Documentation is made available under [CC BY 4.0](LICENSE). Example policies are educational and should be reviewed before applying elsewhere.
