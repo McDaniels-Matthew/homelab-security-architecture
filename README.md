@@ -6,7 +6,7 @@ A public, sanitized security-engineering case study of a segmented home network.
 
 ## Current network architecture
 
-The reported deployment uses a dedicated **OPNsense firewall** for routing and inter-VLAN policy enforcement; a managed **TP-Link Omada SG2008P** switch; managed Wi-Fi; a Raspberry Pi running **Pi-hole**; and a **Proxmox** virtualization host. Logical zones separate management, trusted endpoints, IoT, cameras, guests and child devices. Proxmox is part of the described lab architecture, but **no planned IDS/SIEM workloads are claimed to be active**.
+The reported deployment uses a dedicated **OPNsense firewall** for routing and inter-VLAN policy enforcement; a managed **TP-Link Omada SG2008P** switch; managed Wi-Fi; a Raspberry Pi running **Pi-hole**; and a **Proxmox** virtualization host. A separate **GL.iNet Beryl AX** travel router provides an owner-tested WireGuard IPv4 tunnel back to home OPNsense. Logical zones separate management, trusted endpoints, IoT, cameras, guests and child devices. Proxmox is part of the described lab architecture, but **no planned IDS/SIEM workloads are claimed to be active**.
 
 ![Sanitized network overview](diagrams/network-overview.svg)
 
@@ -25,7 +25,7 @@ The reported deployment uses a dedicated **OPNsense firewall** for routing and i
 | Eleven baseline validation checks | **Owner-reported passing** | Dated sanitized evidence/revisions still to be published |
 | Complete child-device destination allowlist | **In progress** | Individual blocked-site tests do not establish comprehensive allowlisting |
 | Unbound/Pi-hole integration | **To verify** | Not claimed deployed or correctly integrated |
-| Home WireGuard remote access | **Separate workstream / to verify** | Not conflated with hardened travel-router work |
+| Travel-router WireGuard VPN to home OPNsense | **Deployed; selected tunnel-up tests owner-validated** | Full-tunnel IPv4 and Pi-hole path tested; external-network fail-closed, DNS/IPv6 leak and captive-portal cases still pending |
 | LG TV strict outbound allowlisting / ACR controls | **Planned, not verified** | No claim all smart-TV telemetry is eliminated |
 | Zenarmor / application-aware IoT restrictions | **Planned, not deployed** | Evaluate only with compatibility, performance and rollback tests |
 | Dedicated SPAN/mirror-port sensor, Suricata/Zeek | **Planned, not deployed** | OPNsense will remain the firewall |
@@ -53,6 +53,7 @@ See [current deployment and trust-boundary limitations](docs/deployment-and-thre
 | [Design decisions](docs/design-decisions.md) | Architectural decisions and trade-offs |
 | [Current deployment & limits](docs/deployment-and-threat-boundaries.md) | Present DNS/IoT controls versus remaining exposure |
 | [Hardening roadmap](docs/hardening-roadmap.md) | **Future work only**; unchecked means not established |
+| [Hardened travel router](docs/secure-travel-router.md) | Deployed WireGuard home tunnel, tested controls, unresolved field checks |
 | [Validation evidence template](docs/validation-evidence-template.md) | Procedure for dated, scoped, sanitized testing |
 | [Example policies](examples/policy-pseudocode.md) | Illustrative pseudocode, not production config |
 
@@ -62,7 +63,8 @@ See [current deployment and trust-boundary limitations](docs/deployment-and-thre
 2. Re-run zone isolation and DNS tests with dated, sanitized evidence.
 3. Observe LG TV dependencies before narrowing outbound traffic; test DoH/QUIC hypotheses rather than assuming DNS blocking is complete.
 4. Evaluate a separate, passive IDS sensor on a supported switch mirror port. Do **not** replace the existing firewall.
-5. Document new findings, service regressions, rollbacks and subsequent configuration changes.
+5. Re-test the travel-router tunnel for fail-closed behavior and DNS/IPv6 leaks on external networks.
+6. Document new findings, service regressions, rollbacks and subsequent configuration changes.
 
 Detailed acceptance criteria and sequencing are in the [hardening roadmap](docs/hardening-roadmap.md). **These are not current deployment claims.**
 
