@@ -13,6 +13,7 @@ Provide ordinary home connectivity while reducing lateral movement and exposure 
 5. **Pi-hole DNS service:** shared DNS filtering where explicitly allowed by policy.
 6. **Virtualization host:** Proxmox lab environment; exposure is restricted by the relevant access policies.
 7. **Clients:** administrative, trusted, IoT, cameras, guest and child-device classes.
+8. **Hardened travel router (external):** GL.iNet Beryl AX with an owner-tested WireGuard IPv4 tunnel to OPNsense for managed devices while travelling; full tunnel-up reachability and Pi-hole use reported, but fail-closed behavior and IPv6 leakage not yet field-validated. See [travel-router case study](secure-travel-router.md).
 
 ## Trust boundaries
 
