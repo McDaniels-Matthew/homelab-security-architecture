@@ -45,7 +45,8 @@
 - [ ] Audit management ACLs, exposed services, patching, MFA where available, keys, credentials, and administrative exceptions.
 - [ ] Finish and positively/negatively test child-device destination allowlisting.
 - [ ] Verify Pi-hole/Unbound relationship and assess DNS resilience.
-- [ ] Implement and validate home WireGuard remote access only as a separately tested workstream; distinguish it from the hardened travel router.
+- [ ] Re-validate the already established travel-router WireGuard IPv4 tunnel, including external-network interruption behavior, fail-closed routing, DNS/IPv6 leakage, and captive-portal restrictions (see [travel-router case study](secure-travel-router.md)).
+- [ ] Treat any other home WireGuard client/access path as a separate workstream; do not infer that its deployment is verified from the travel-router tunnel.
 
 **Acceptance:** scoped logs, confirmed rule behavior and exceptions, documented rollback, and no unjustified "fully secure" statements.
 
