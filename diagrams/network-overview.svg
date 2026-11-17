@@ -1,1 +1,89 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1020" height="620" viewBox="0 0 1020 620"><rect width="1020" height="620" fill="#f8fafc"/><style>text{font-family:Arial,sans-serif;fill:#142239}.node{fill:white;stroke:#4c647d;stroke-width:2}.zone{fill:#eaf2fa;stroke:#63809e;stroke-width:1.5}.edge{stroke:#71869a;stroke-width:2;fill:none} .small{font-size:16px}.main{font-size:19px;font-weight:bold}</style><text x="510" y="34" text-anchor="middle" class="main">Sanitized Home Network — Logical View</text><rect x="402" y="55" width="216" height="55" rx="10" class="node"/><text x="510" y="88" text-anchor="middle" class="main">Internet / ISP</text><path d="M510 110V139" class="edge"/><rect x="385" y="139" width="250" height="65" rx="10" class="node"/><text x="510" y="168" text-anchor="middle" class="main">OPNsense Gateway</text><text x="510" y="190" text-anchor="middle" class="small">Zone routing + policy</text><path d="M510 204V235" class="edge"/><rect x="385" y="235" width="250" height="55" rx="10" class="node"/><text x="510" y="268" text-anchor="middle" class="main">Managed VLAN Switch</text><path d="M510 290V330M175 330H845M175 330V355M510 330V355M845 330V355" class="edge"/><rect x="65" y="355" width="220" height="60" rx="10" class="node"/><text x="175" y="380" text-anchor="middle" class="main">Managed Wireless AP</text><text x="175" y="401" text-anchor="middle" class="small">VLAN-to-SSID mapping</text><rect x="400" y="355" width="220" height="60" rx="10" class="node"/><text x="510" y="380" text-anchor="middle" class="main">Pi-hole</text><text x="510" y="401" text-anchor="middle" class="small">DNS filtering</text><rect x="735" y="355" width="220" height="60" rx="10" class="node"/><text x="845" y="380" text-anchor="middle" class="main">Proxmox</text><text x="845" y="401" text-anchor="middle" class="small">Virtualization lab</text><path d="M175 415V446M95 446H760" class="edge"/><path d="M110 446V467" class="edge"/><rect x="40" y="467" width="140" height="58" rx="9" class="zone"/><text x="110" y="501" text-anchor="middle" class="small">Management</text><path d="M268 446V467" class="edge"/><rect x="198" y="467" width="140" height="58" rx="9" class="zone"/><text x="268" y="501" text-anchor="middle" class="small">Trusted</text><path d="M426 446V467" class="edge"/><rect x="356" y="467" width="140" height="58" rx="9" class="zone"/><text x="426" y="501" text-anchor="middle" class="small">IoT</text><path d="M584 446V467" class="edge"/><rect x="514" y="467" width="140" height="58" rx="9" class="zone"/><text x="584" y="501" text-anchor="middle" class="small">Cameras</text><path d="M742 446V467" class="edge"/><rect x="672" y="467" width="140" height="58" rx="9" class="zone"/><text x="742" y="501" text-anchor="middle" class="small">Guest</text><path d="M900 446V467" class="edge"/><rect x="830" y="467" width="140" height="58" rx="9" class="zone"/><text x="900" y="501" text-anchor="middle" class="small">Child devices</text><text x="510" y="574" text-anchor="middle" class="small">Illustrative security zones — no live addresses, VLAN identifiers or device names</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Sanitized Home Network — Logical Security View</title>
+  <desc id="desc">Logical network architecture showing Internet, OPNsense with Zenarmor and Suricata, managed switching, Pi-hole, Proxmox, wireless access, and seven security zones.</desc>
+  <rect width="1200" height="760" fill="#f8fafc"/>
+  <style>
+    text{font-family:Arial,Helvetica,sans-serif;fill:#142239}
+    .node{fill:#ffffff;stroke:#4c647d;stroke-width:2}
+    .security{fill:#eef5fb;stroke:#4f6f8f;stroke-width:2}
+    .zone{fill:#eaf2fa;stroke:#63809e;stroke-width:1.5}
+    .edge{stroke:#71869a;stroke-width:2;fill:none}
+    .title{font-size:21px;font-weight:bold}
+    .main{font-size:18px;font-weight:bold}
+    .small{font-size:14px}
+    .tiny{font-size:12px}
+  </style>
+
+  <text x="600" y="34" text-anchor="middle" class="title">Sanitized Home Network — Logical Security View</text>
+
+  <rect x="480" y="55" width="240" height="52" rx="10" class="node"/>
+  <text x="600" y="87" text-anchor="middle" class="main">Internet / ISP</text>
+
+  <path d="M600 107V135" class="edge"/>
+
+  <rect x="390" y="135" width="420" height="110" rx="12" class="security"/>
+  <text x="600" y="166" text-anchor="middle" class="main">OPNsense Security Gateway</text>
+  <text x="600" y="192" text-anchor="middle" class="small">Routing • NAT • Stateful inter-zone firewall policy</text>
+  <text x="600" y="214" text-anchor="middle" class="small">Zenarmor: selected internal VLAN inspection / L7 policy</text>
+  <text x="600" y="234" text-anchor="middle" class="small">Suricata: WAN IDS alerting (non-blocking baseline)</text>
+
+  <path d="M600 245V278" class="edge"/>
+
+  <rect x="470" y="278" width="260" height="58" rx="10" class="node"/>
+  <text x="600" y="313" text-anchor="middle" class="main">Managed VLAN Switch</text>
+
+  <path d="M600 336V372" class="edge"/>
+  <path d="M210 372H990" class="edge"/>
+  <path d="M210 372V398M600 372V398M990 372V398" class="edge"/>
+
+  <rect x="90" y="398" width="240" height="70" rx="10" class="node"/>
+  <text x="210" y="426" text-anchor="middle" class="main">Managed Wireless AP</text>
+  <text x="210" y="449" text-anchor="middle" class="small">SSID-to-VLAN mapping</text>
+
+  <rect x="480" y="398" width="240" height="70" rx="10" class="node"/>
+  <text x="600" y="426" text-anchor="middle" class="main">Pi-hole + Recursive DNS</text>
+  <text x="600" y="449" text-anchor="middle" class="small">Approved resolver / filtering</text>
+
+  <rect x="870" y="398" width="240" height="70" rx="10" class="node"/>
+  <text x="990" y="426" text-anchor="middle" class="main">Proxmox Lab Host</text>
+  <text x="990" y="449" text-anchor="middle" class="small">Virtualized security / lab services</text>
+
+  <path d="M210 468V505" class="edge"/>
+  <path d="M75 505H1125" class="edge"/>
+
+  <path d="M105 505V532" class="edge"/>
+  <path d="M270 505V532" class="edge"/>
+  <path d="M435 505V532" class="edge"/>
+  <path d="M600 505V532" class="edge"/>
+  <path d="M765 505V532" class="edge"/>
+  <path d="M930 505V532" class="edge"/>
+  <path d="M1095 505V532" class="edge"/>
+
+  <rect x="35" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="105" y="559" text-anchor="middle" class="small">Management /</text>
+  <text x="105" y="579" text-anchor="middle" class="small">Infrastructure</text>
+
+  <rect x="200" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="270" y="570" text-anchor="middle" class="small">Trusted</text>
+
+  <rect x="365" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="435" y="570" text-anchor="middle" class="small">IoT</text>
+
+  <rect x="530" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="600" y="570" text-anchor="middle" class="small">Cameras</text>
+
+  <rect x="695" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="765" y="570" text-anchor="middle" class="small">Guest</text>
+
+  <rect x="860" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="930" y="570" text-anchor="middle" class="small">Lab</text>
+
+  <rect x="1025" y="532" width="140" height="62" rx="9" class="zone"/>
+  <text x="1095" y="570" text-anchor="middle" class="small">Child devices</text>
+
+  <path d="M990 468V625H930V594" class="edge"/>
+  <text x="1010" y="626" class="tiny">Lab services terminate in the Lab zone</text>
+
+  <text x="600" y="686" text-anchor="middle" class="small">Illustrative trust zones only — no live addresses, VLAN IDs, SSIDs, hostnames, or device identifiers</text>
+  <text x="600" y="710" text-anchor="middle" class="tiny">OPNsense remains the authoritative routing and segmentation boundary; inspection layers supplement rather than replace firewall policy.</text>
+</svg>
